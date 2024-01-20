@@ -1,4 +1,4 @@
-package com.example.foodapi.Models.Diet;
+package com.fodapi.models.diets;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

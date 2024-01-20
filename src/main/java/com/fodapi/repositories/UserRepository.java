@@ -1,4 +1,4 @@
-package com.fodapi.configuration.repositories;
+package com.fodapi.repositories;
 
 import com.fodapi.models.user.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,4 +1,4 @@
-package com.example.foodapi.Models.Meals;
+package com.fodapi.models.meals;
 
 public interface Meal {
 }

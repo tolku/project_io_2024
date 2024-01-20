@@ -1,4 +1,4 @@
-package com.example.foodapi.Models.Meals.Recipie;
+package com.fodapi.models.meals.Recipie;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

@@ -1,4 +1,4 @@
-package com.example.foodapi.Models.Meals.Ingredient.Brand;
+package com.fodapi.models.meals.Ingredients.Brand;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

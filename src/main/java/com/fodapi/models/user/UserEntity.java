@@ -1,4 +1,4 @@
-package com.example.foodapi.Models.User;
+package com.fodapi.models.user;
 
 
 import jakarta.persistence.*;

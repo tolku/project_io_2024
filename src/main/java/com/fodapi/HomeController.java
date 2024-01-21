@@ -16,7 +16,6 @@ public class HomeController {
     @GetMapping(path = "/")
     public String home() {
 
-        userRepository.saveAndFlush(new UserEntity(2L,"email@s.com","jakishas",12,234.4,175.0, Gender.MALE,true));
 
         return "home.html";
     }

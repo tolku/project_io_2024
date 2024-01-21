@@ -2,12 +2,13 @@ package com.fodapi.controllers;
 
 import com.fodapi.components.IngredientHistoryComponent;
 import com.fodapi.models.meals.History.IngredientHistoryEntity;
+import com.fodapi.models.meals.ingredients.IngredientEntity;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.util.Pair;
+
+import org.antlr.v4.runtime.misc.Triple;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import com.fodapi.models.meals.ingredients.IngredientEntity;
 
 import java.util.Date;
 import java.util.List;
@@ -20,7 +21,7 @@ public class IngredientHistoryController {
 
 
     @GetMapping("/diary")
-    public List<Pair<Pair<Long, Double>, IngredientEntity>> ingredientsFromHistory(/*@RequestParam Date date, @AuthenticationPrincipal UserDetails userDetails*/ ){
+    public List<Triple<Long, Double, IngredientEntity>> ingredientsFromHistory(/*@RequestParam Date date, @AuthenticationPrincipal UserDetails userDetails*/ ){
         //TODO USTALENIE SPOSOBU PRZEKAZANIA USER_ID     przez np.UserDetails
         Date date = new Date();
         return ingredientHistoryComponent.getIngredientsFromHistoryByUserId(1L,date);

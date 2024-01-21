@@ -4,13 +4,15 @@ import com.fodapi.models.meals.History.IngredientHistoryEntity;
 import com.fodapi.models.meals.ingredients.IngredientEntity;
 import com.fodapi.repositories.IngredientHistoryRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.util.Pair;
+
+import org.antlr.v4.runtime.misc.Triple;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.List;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -26,7 +28,7 @@ public class IngredientHistoryComponent {
         else return allByIdUser;
     }
 
-    public List<Pair<Pair<Long, Double>, IngredientEntity>> getIngredientsFromHistoryByUserId(Long userId, Date date){
+    public List<Triple<Long, Double, IngredientEntity>> getIngredientsFromHistoryByUserId(Long userId, Date date){
         List<IngredientHistoryEntity> ingredientHistoryByUserId = getIngredientHistoryByUserId(userId);
         if(ingredientHistoryByUserId==null){
             return null;
@@ -40,13 +42,16 @@ public class IngredientHistoryComponent {
                 })
                 .toList();
 
-        List<Pair<Pair<Long, Double>, IngredientEntity>> pairs = listOfIngredientHistory.stream()
-                .map(elem -> Pair.of(Pair.of(elem.getId(),elem.getWeight()), ingredientComponent.getIngredientEntityById(elem.getIdIngredient())))
-                .toList();
+        List<Triple<Long, Double, IngredientEntity>> triples = listOfIngredientHistory.stream()
+                .map(elem -> new Triple<>(
+                        elem.getId(),
+                        elem.getWeight(),
+                        ingredientComponent.getIngredientEntityById(elem.getIdIngredient())))
+                .collect(Collectors.toList());
 
-        if(pairs.isEmpty())
+        if(triples.isEmpty())
             return null;
-        return pairs;
+        return triples;
     }
 
     public void addIngredientToHistory(IngredientHistoryEntity ingredientHistoryEntity){

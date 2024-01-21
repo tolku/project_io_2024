@@ -6,11 +6,15 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.RememberMeServices;
+import org.springframework.security.web.authentication.rememberme.*;
 
 import javax.sql.DataSource;
 
@@ -28,38 +32,27 @@ public class SecurityConfig {
         http.authorizeHttpRequests(authz -> authz
                 .requestMatchers("/login", "/register", "/loginn").permitAll()
                 .anyRequest().authenticated())
-                .rememberMe(rememebrMe -> rememebrMe.key("key").tokenValiditySeconds(300))
+                .rememberMe(rememberMe -> rememberMe.rememberMeServices(rememberMeServices(userDetailsManager())))
                 .formLogin(formLogin -> formLogin.loginPage("/login")
-//                        .loginProcessingUrl("/loginn")
                         .defaultSuccessUrl("/success")
-                        .failureUrl("/failure")
+                        .failureHandler(authenticationFailureHandler())
+//                        .failureUrl("/failure")
                         .permitAll())
                 .csrf(AbstractHttpConfigurer::disable)
                 .httpBasic(withDefaults());
-
-
-//        http.authorizeHttpRequests(authz -> authz.requestMatchers("/login", "/register", "/loginn").permitAll())
-//
-//                .formLogin(formLogin -> formLogin.loginPage("/login")
-////                        .loginProcessingUrl("/loginn")
-//                                .defaultSuccessUrl("/success")
-//                                .failureUrl("/failure")
-//                        .permitAll()
-//                )
-//                .rememberMe()
-//                .tokenValiditySeconds(300)
-//                .key("differentKey")
-//                .and()
-//                .csrf()
-//                .disable()
-//                .httpBasic(withDefaults());
     return http.build();
+    }
+
+
+    @Bean
+    public AuthenticationFailureHandler authenticationFailureHandler() {
+        return new CustomAuthenticationFailureHandler();
     }
 
     @Bean
     public UserDetailsManager userDetailsManager() {
         JdbcUserDetailsManager userDetailsManager = new JdbcUserDetailsManager(dataSource);
-        userDetailsManager.setUsersByUsernameQuery("SELECT email, password_hash, is_enabled FROM users WHERE email = ?");
+        userDetailsManager.setUsersByUsernameQuery("SELECT email, password_hash, is_enabled FROM public.users WHERE email = ?");
         userDetailsManager.setAuthoritiesByUsernameQuery("SELECT email, role FROM users WHERE email = ?");
         userDetailsManager.setEnableGroups(false);
         return userDetailsManager;
@@ -70,4 +63,12 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+    @Bean
+    RememberMeServices rememberMeServices(UserDetailsService userDetailsService) {
+        TokenBasedRememberMeServices.RememberMeTokenAlgorithm encodingAlgorithm = TokenBasedRememberMeServices.RememberMeTokenAlgorithm.SHA256;
+        TokenBasedRememberMeServices rememberMe = new TokenBasedRememberMeServices("springRocks", userDetailsService, encodingAlgorithm);
+        rememberMe.setMatchingAlgorithm(TokenBasedRememberMeServices.RememberMeTokenAlgorithm.MD5);
+        rememberMe.setTokenValiditySeconds(300);
+        return rememberMe;
+    }
 }

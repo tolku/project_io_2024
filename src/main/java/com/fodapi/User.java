@@ -5,7 +5,7 @@ public class User {
     private String firstName;
     private String secondName;
     private String email;
-    private String password;
+    private String passwordHash;
 
     public String getFirstName() {
         return firstName;
@@ -31,16 +31,16 @@ public class User {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
+    public String getPasswordHash() {
+        return passwordHash;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
     }
 
     @Override
     public String toString() {
-        return "imie: " + firstName + " " + "nazwisko: " + this.secondName + " " + "email: " + this.email + " " + "haslo: " + this.password;
+        return "imie: " + firstName + " " + "nazwisko: " + this.secondName + " " + "email: " + this.email + " " + "haslo: " + this.passwordHash;
     }
 }

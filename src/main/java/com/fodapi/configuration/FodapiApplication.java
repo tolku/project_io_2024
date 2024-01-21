@@ -13,6 +13,7 @@ public class FodapiApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(FodapiApplication.class, args);
+
 	}
 
 }

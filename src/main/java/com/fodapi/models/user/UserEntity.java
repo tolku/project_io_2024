@@ -11,6 +11,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserEntity {
+
+    public UserEntity(String email, String passwordHash, boolean isEnabled) {
+        this.email = email;
+        this.passwordHash = passwordHash;
+        this.isEnabled = isEnabled;
+    }
+
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY )
     private Long id;

@@ -5,12 +5,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.fodapi.models.user.Gender;
 import com.fodapi.models.user.UserEntity;
 import com.fodapi.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-
+@RequestMapping("/")
 public class HomeController {
     @Autowired
     private UserRepository userRepository;
@@ -21,20 +22,16 @@ public class HomeController {
     @GetMapping(path = "/")
     public String home() {
 
-        userRepository.saveAndFlush(new UserEntity(2L,"email@s.com","jakishas",12,234.4,175.0, Gender.MALE,true));
+        userRepository.saveAndFlush(new UserEntity(2L,"ZMIANA@s.com","jakishas",12,234.4,175.0, Gender.MALE,true));
 
         return "home.html";
     }
 
-    @GetMapping(path = "/login")
-    public String login() {
-        return "login.html";
-    }
-
     @GetMapping(path = "/success")
-    public String onSuccess() {
+    public String onSuccess(Model modelMap) {
         String encoded = bcrypt.encode("tomcio");
         if (bcrypt.matches("tomcio", encoded)) {
+            modelMap.addAttribute("message", "THIS IS THE ADDED ATRIBUTE TO MODEL MAP");
             return "matched.html";
         } else {
             return "success.html";

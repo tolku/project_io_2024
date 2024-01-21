@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html>
-
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-
+    <title>Example Thymeleaf Template</title>
 </head>
-
 <body>
-WE MATCHED PASSWORD!
+
+<h1>PASSWORD MATCHED, Message from the controller:</h1>
+<p th:text="${message}"></p>
+
 </body>
 </html>

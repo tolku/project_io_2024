@@ -3,7 +3,7 @@ package com.fodapi.components;
 import java.util.List;
 import java.util.Optional;
 
-import com.fodapi.models.meals.Ingredients.IngredientEntity;
+import com.fodapi.models.meals.ingredients.IngredientEntity;
 import com.fodapi.repositories.IngredientRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -26,6 +26,14 @@ public class IngredientComponent {
 
     public List<IngredientEntity> getIngredientsByPhrase(String phrase){
         return ingredientRepository.findAllByNameContainsOrBarcodeContains(phrase,phrase);
+    }
+
+    public List<IngredientEntity> getAllIngredients(){
+        return ingredientRepository.findAll();
+    }
+
+    public List<IngredientEntity> getFourRandomIngredients(){
+        return ingredientRepository.findRandomFour();
     }
 
 }

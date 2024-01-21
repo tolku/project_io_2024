@@ -1,13 +1,16 @@
 package com.fodapi.components;
 
 import com.fodapi.models.meals.History.IngredientHistoryEntity;
-import com.fodapi.models.meals.Ingredients.IngredientEntity;
+import com.fodapi.models.meals.ingredients.IngredientEntity;
 import com.fodapi.repositories.IngredientHistoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Component;
+
+import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.time.LocalDate;
+import java.time.ZoneId;
 
 @Component
 @RequiredArgsConstructor
@@ -23,14 +26,22 @@ public class IngredientHistoryComponent {
         else return allByIdUser;
     }
 
-    public List<Pair<Double, IngredientEntity>> getIngredientsFromHistoryByUserId(Long userId){
+    public List<Pair<Pair<Long, Double>, IngredientEntity>> getIngredientsFromHistoryByUserId(Long userId, Date date){
         List<IngredientHistoryEntity> ingredientHistoryByUserId = getIngredientHistoryByUserId(userId);
         if(ingredientHistoryByUserId==null){
             return null;
         }
 
-        List<Pair<Double, IngredientEntity>> pairs = ingredientHistoryByUserId.stream()
-                .map(elem -> Pair.of(elem.getWeight(), ingredientComponent.getIngredientEntityById(elem.getIdIngredient())))
+        List<IngredientHistoryEntity> listOfIngredientHistory = ingredientHistoryByUserId.stream()
+                .filter(elem -> {
+                    LocalDate elemDate = elem.getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                    LocalDate specifiedDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                    return elemDate.equals(specifiedDate);
+                })
+                .toList();
+
+        List<Pair<Pair<Long, Double>, IngredientEntity>> pairs = listOfIngredientHistory.stream()
+                .map(elem -> Pair.of(Pair.of(elem.getId(),elem.getWeight()), ingredientComponent.getIngredientEntityById(elem.getIdIngredient())))
                 .toList();
 
         if(pairs.isEmpty())
@@ -42,4 +53,7 @@ public class IngredientHistoryComponent {
         ingredientHistoryRepository.saveAndFlush(ingredientHistoryEntity);
     }
 
+    public void removeIngredientFromHistory(Long id){
+        ingredientHistoryRepository.deleteById(id);
+    }
 }

@@ -1,12 +1,15 @@
 package com.fodapi.controllers;
 
 import com.fodapi.components.IngredientHistoryComponent;
+import com.fodapi.models.meals.History.IngredientHistoryEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.util.Pair;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import com.fodapi.models.meals.Ingredients.IngredientEntity;
+import com.fodapi.models.meals.ingredients.IngredientEntity;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -15,12 +18,23 @@ public class IngredientHistoryController {
 
     private final IngredientHistoryComponent ingredientHistoryComponent;
 
-    @GetMapping("/IFH") //TODO DOCELOWO ZWRACA list pair Double-IngredientDTO
-    public List<Pair<Double, IngredientEntity>> ingredientsFromHistory(){
+
+    @GetMapping("/diary")
+    public List<Pair<Pair<Long, Double>, IngredientEntity>> ingredientsFromHistory(/*@RequestParam Date date, @AuthenticationPrincipal UserDetails userDetails*/ ){
         //TODO USTALENIE SPOSOBU PRZEKAZANIA USER_ID     przez np.UserDetails
-        return ingredientHistoryComponent.getIngredientsFromHistoryByUserId(1L);
+        Date date = new Date();
+        return ingredientHistoryComponent.getIngredientsFromHistoryByUserId(1L,date);
     }
 
+    @GetMapping("/addIngredient")                      //Mozna dodac param Description
+    public void addIngredientToHistory(@RequestParam Long ingredientId,@RequestParam double amount  /*,@AuthenticationPrincipal UserDetails userDetails*/){
+        IngredientHistoryEntity historyRecord = new IngredientHistoryEntity(null, 1L, amount, ingredientId, null, new Date(), "Jakiś opis");
+        ingredientHistoryComponent.addIngredientToHistory(historyRecord);
+    }
 
+    @GetMapping("/remIngredient")
+    public void removeIngredientFromHistory(@RequestParam Long historyRecord/*,@AuthenticationPrincipal UserDetails userDetails*/){
+        ingredientHistoryComponent.removeIngredientFromHistory(historyRecord);
+    }
 
 }

@@ -22,6 +22,7 @@ public class RegisterController {
         return "register.html";
     }
 
+    //TODO change User to UserEntityDTO
     @PostMapping("/register")
     public String processRegistration(User user) {
         userRepository.saveAndFlush(new UserEntity(user.getEmail(),passwordEncoder.encode(user.getPasswordHash()),true));

@@ -1,5 +1,6 @@
 package com.fodapi;
 
+//TODO remove in the future - should be replaced by UserEntityDTO
 public class User {
 
     private String firstName;

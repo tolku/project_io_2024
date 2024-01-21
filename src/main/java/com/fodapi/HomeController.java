@@ -21,21 +21,14 @@ public class HomeController {
 
     @GetMapping(path = "/")
     public String home() {
-
         userRepository.saveAndFlush(new UserEntity(2L,"ZMIANA@s.com","jakishas",12,234.4,175.0, Gender.MALE,true));
-
         return "home.html";
     }
 
     @GetMapping(path = "/success")
     public String onSuccess(Model modelMap) {
-        String encoded = bcrypt.encode("tomcio");
-        if (bcrypt.matches("tomcio", encoded)) {
             modelMap.addAttribute("message", "THIS IS THE ADDED ATRIBUTE TO MODEL MAP");
             return "matched.html";
-        } else {
-            return "success.html";
-        }
     }
 
     @GetMapping(path = "/failure")

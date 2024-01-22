@@ -1,0 +1,19 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Fodapi</title>
+</head>
+
+<body>
+<div id="content">
+    <form  th:action="@{/login}" method="POST">
+        <table> <tr><td>User:</td><td>
+            <input type='text' name='username' value='' /></td></tr> <tr><td>Password:</td>
+            <td><input type='password' name='password'/></td></tr> <tr><td colspan='2'>
+            Wysylamy dane na /login
+            <input name="submit" type="submit" value="Zaloguj"/></td></tr> </table>
+        <input type="checkbox" name="remember-me" /> Remember me
+    </form>
+</div>
+</body>
+</html>
+

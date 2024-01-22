@@ -18,6 +18,10 @@ public class UserComponent {
         return byId.orElse(null);
     }
 
+    public UserEntity getUserByMail(String mail){
+        return userRepository.findByEmail(mail);
+    }
+
     public void saveUser(UserEntity userEntity){
         userRepository.saveAndFlush(userEntity);
     }

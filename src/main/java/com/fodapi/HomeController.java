@@ -31,6 +31,7 @@ public class HomeController {
             return "matched.html";
     }
 
+
     @GetMapping(path = "/failure")
     public String onFailure() {
         return "failure.html";

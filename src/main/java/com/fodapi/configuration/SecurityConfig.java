@@ -15,13 +15,20 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.security.web.authentication.rememberme.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 import javax.sql.DataSource;
+
+import java.util.Map;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
+@CrossOrigin
 public class SecurityConfig {
 
     @Autowired
@@ -30,7 +37,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(authz -> authz
-                .requestMatchers("/login", "/register", "/loginn").permitAll()
+                .requestMatchers("/login", "/register").permitAll()
                 .anyRequest().authenticated())
                 .rememberMe(rememberMe -> rememberMe.rememberMeServices(rememberMeServices(userDetailsManager())))
                 .formLogin(formLogin -> formLogin.loginPage("/login")
@@ -38,9 +45,30 @@ public class SecurityConfig {
                         .failureHandler(authenticationFailureHandler())
 //                        .failureUrl("/failure")
                         .permitAll())
+                .cors(cors -> corsFilter())
+//                .cors(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
                 .httpBasic(withDefaults());
     return http.build();
+    }
+
+    @Bean
+    public CorsFilter corsFilter() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+        config.addAllowedOrigin("http://localhost:4000/");
+        config.addAllowedMethod("GET");
+        config.addAllowedMethod("POST");
+        config.addAllowedMethod("PUT");
+        config.addAllowedMethod("DELETE");
+        config.addAllowedHeader("*");
+        config.setAllowCredentials(true);
+        config.setMaxAge(3600L);
+
+        source.setCorsConfigurations(Map.of("/**", config));
+
+//        source.registerCorsConfiguration("/**", config);
+        return new CorsFilter(source);
     }
 
 

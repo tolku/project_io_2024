@@ -2,7 +2,9 @@ package com.fodapi.controllers;
 
 import com.fodapi.components.IngredientComponent;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.fodapi.models.meals.ingredients.IngredientEntity;
 
@@ -21,6 +23,7 @@ public class IngredientController {
         return ingredientComponent.getIngredientsByPhrase(phrase);
     }
 
+    @CrossOrigin(value = "http://localhost:4000/foodapi-io/allIngredients", methods = RequestMethod.GET)
     @GetMapping("/allIngredients")
     public List<IngredientEntity> allIngredients(){
         return ingredientComponent.getAllIngredients();

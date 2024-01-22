@@ -1,4 +1,4 @@
-package com.fodapi.models.meals.History;
+package com.fodapi.models.meals.history;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

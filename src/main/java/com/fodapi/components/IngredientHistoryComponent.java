@@ -1,6 +1,6 @@
 package com.fodapi.components;
 
-import com.fodapi.models.meals.History.IngredientHistoryEntity;
+import com.fodapi.models.meals.history.IngredientHistoryEntity;
 import com.fodapi.models.meals.ingredients.IngredientEntity;
 import com.fodapi.repositories.IngredientHistoryRepository;
 import lombok.RequiredArgsConstructor;

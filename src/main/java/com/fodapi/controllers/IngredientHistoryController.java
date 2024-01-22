@@ -1,7 +1,7 @@
 package com.fodapi.controllers;
 
 import com.fodapi.components.IngredientHistoryComponent;
-import com.fodapi.models.meals.History.IngredientHistoryEntity;
+import com.fodapi.models.meals.history.IngredientHistoryEntity;
 import com.fodapi.models.meals.ingredients.IngredientEntity;
 import lombok.RequiredArgsConstructor;
 

@@ -23,7 +23,6 @@ public class IngredientController {
         return ingredientComponent.getIngredientsByPhrase(phrase);
     }
 
-    @CrossOrigin(value = "http://localhost:4000/foodapi-io/allIngredients", methods = RequestMethod.GET)
     @GetMapping("/allIngredients")
     public List<IngredientEntity> allIngredients(){
         return ingredientComponent.getAllIngredients();

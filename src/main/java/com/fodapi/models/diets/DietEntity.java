@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Data
-public class DietEntity {
+public class DietEntity implements Cloneable {
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY )
     private Long id;
@@ -23,4 +23,13 @@ public class DietEntity {
     private double maxProtein;
     private double fiberDemand;
     private double waterDemand;
+
+    @Override
+    public DietEntity clone() {
+        try {
+            return (DietEntity) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
+    }
 }

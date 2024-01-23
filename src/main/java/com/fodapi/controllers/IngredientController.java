@@ -1,8 +1,12 @@
 package com.fodapi.controllers;
 
+import com.fodapi.User;
 import com.fodapi.components.IngredientComponent;
+import com.fodapi.components.UserComponent;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.fodapi.models.meals.ingredients.IngredientEntity;
 
@@ -16,8 +20,7 @@ public class IngredientController {
     private final IngredientComponent ingredientComponent;
 
     @GetMapping("/searchIngredients")
-    public List<IngredientEntity> searchIngredients(/*@RequestParam String phrase*/){
-        String phrase = "ie";
+    public List<IngredientEntity> searchIngredients(@RequestParam String phrase){
         return ingredientComponent.getIngredientsByPhrase(phrase);
     }
 
@@ -37,4 +40,6 @@ public class IngredientController {
         List<IngredientEntity> allIngredients = ingredientComponent.getFourRandomIngredients();
         return allIngredients.stream().map(IngredientDTO::new).toList();
     }
+
+
 }

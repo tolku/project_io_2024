@@ -1,47 +1,58 @@
 package com.fodapi;
 
-//TODO remove in the future - should be replaced by UserEntityDTO
-public class User {
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-    private String firstName;
-    private String secondName;
-    private String email;
-    private String passwordHash;
+import java.util.Collection;
 
-    public String getFirstName() {
-        return firstName;
-    }
+public class User implements UserDetails {
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
+    private String username;
+    private String password;
 
-    public String getSecondName() {
-        return secondName;
-    }
-
-    public void setSecondName(String secondName) {
-        this.secondName = secondName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPasswordHash() {
-        return passwordHash;
-    }
-
-    public void setPasswordHash(String passwordHash) {
-        this.passwordHash = passwordHash;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
     }
 
     @Override
-    public String toString() {
-        return "imie: " + firstName + " " + "nazwisko: " + this.secondName + " " + "email: " + this.email + " " + "haslo: " + this.passwordHash;
+    public String getPassword() {
+        return password;
     }
+  
+      @Override
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+  
+    @Override
+    public void setUsername(String username) {
+      this.username = username;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
 }

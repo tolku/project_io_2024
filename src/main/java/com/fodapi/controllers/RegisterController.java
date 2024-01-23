@@ -1,6 +1,8 @@
 package com.fodapi;
 
+import com.fodapi.models.diets.DietEntity;
 import com.fodapi.models.user.UserEntity;
+import com.fodapi.repositories.DietRepository;
 import com.fodapi.repositories.UserRepository;
 import com.fodapi.servies.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;

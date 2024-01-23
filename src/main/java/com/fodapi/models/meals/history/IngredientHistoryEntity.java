@@ -1,11 +1,11 @@
-package com.fodapi.models.meals.History;
+package com.fodapi.models.meals.history;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.sql.Date;
 
 @Entity(name = "ingredients_history")
 @Data

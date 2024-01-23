@@ -1,4 +1,4 @@
-package com.fodapi.models.meals.Ingredients.Brand;
+package com.fodapi.models.meals.ingredients.brand;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

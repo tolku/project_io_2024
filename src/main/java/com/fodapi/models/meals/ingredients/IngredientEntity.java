@@ -1,6 +1,6 @@
 package com.fodapi.models.meals.ingredients;
 
-import com.fodapi.models.meals.ingredients.Brand.Brand;
+import com.fodapi.models.meals.ingredients.brand.Brand;
 import com.fodapi.models.meals.Meal;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

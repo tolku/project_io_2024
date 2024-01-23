@@ -24,8 +24,6 @@ import javax.sql.DataSource;
 
 import java.util.Map;
 
-import static org.springframework.security.config.Customizer.withDefaults;
-
 @Configuration
 @EnableWebSecurity
 @CrossOrigin
@@ -43,12 +41,9 @@ public class SecurityConfig {
                 .formLogin(formLogin -> formLogin.loginPage("/login")
                         .defaultSuccessUrl("/success")
                         .failureHandler(authenticationFailureHandler())
-//                        .failureUrl("/failure")
                         .permitAll())
                 .cors(cors -> corsFilter())
-//                .cors(AbstractHttpConfigurer::disable)
-                .csrf(AbstractHttpConfigurer::disable)
-                .httpBasic(withDefaults());
+                .csrf(AbstractHttpConfigurer::disable);
     return http.build();
     }
 
@@ -67,7 +62,6 @@ public class SecurityConfig {
 
         source.setCorsConfigurations(Map.of("/**", config));
 
-//        source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
     }
 
